@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
+import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.widget.FrameLayout;
@@ -103,7 +104,12 @@ public class FlutterWebviewPlugin implements MethodCallHandler, PluginRegistry.A
 
         FrameLayout.LayoutParams params = buildLayoutParams(call);
 
-        activity.addContentView(webViewManager.webView, params);
+        ViewGroup vg = (ViewGroup) (webViewManager.webView.getParent());
+        if (vg != null) {
+//            vg.removeView(webViewManager.webView);
+        }else{
+            activity.addContentView(webViewManager.webView, params);
+        }
 
         webViewManager.openUrl(withJavascript,
                 clearCache,
